@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Rhythm</string>
+    <string name="clear_the_text">Clear the text</string>
+    <string name="error">Error</string>
+    <string name="go_back">Go back</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="download">Download</string>
+</resources>

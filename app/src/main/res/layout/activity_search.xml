@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".SearchActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/search_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_weight="0.4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:ems="10"-->
+<!--            android:focusable="true"-->
+<!--            android:hint="@android:string/search_go"-->
+<!--            android:imeOptions="actionSearch"-->
+<!--            android:includeFontPadding="false"-->
+<!--            android:inputType="text"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:paddingEnd="10dp"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:textColorHint="@color/colorAccent"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_width="wrap_content"/>-->
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:focusable="true"
+            android:imeOptions="actionSearch"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="22sp"
+            android:hint="@android:string/search_go"
+            android:background="@android:color/transparent"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/clear_button"
+            android:layout_weight="0.4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText"
+            app:srcCompat="@drawable/ic_clear" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/searchList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
