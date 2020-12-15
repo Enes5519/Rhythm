@@ -7,12 +7,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import com.enes5519.rhythm.provider.getSuggestions
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
-import org.json.JSONArray
 import java.net.URLEncoder
 
 class SearchActivity : AppCompatActivity() {
@@ -72,16 +72,11 @@ class SearchActivity : AppCompatActivity() {
         job = CoroutineScope(Dispatchers.IO).launch {
             try{
                 val client = HttpClient(Android)
-
-                val res = client.get<String>("https://google.com/suggest?client=firefox&ds=yt&format=rich&q=$kw")
-
-                val arr = JSONArray(res).getJSONArray(1)
+                val res = client.getSuggestions(kw)
 
                 withContext(Dispatchers.Main){
                     list.clear()
-                    for (i in 0 until arr.length()) {
-                        list.add(arr.getString(i))
-                    }
+                    for (search in res) list.add(search.asString)
                     adapter.notifyDataSetChanged()
                 }
 
