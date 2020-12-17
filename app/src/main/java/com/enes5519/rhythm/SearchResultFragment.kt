@@ -17,6 +17,7 @@ import com.enes5519.rhythm.adapter.SearchResultAdapter
 import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.utils.PermissionManager
+import com.enes5519.rhythm.utils.WebAPI
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.json.*
@@ -74,7 +75,6 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun loadList(){
-        val kw = URLEncoder.encode(searchKeyword, "UTF-8")
         CoroutineScope(Dispatchers.IO).launch {
             try{
                 val client = HttpClient(Android){
@@ -83,7 +83,7 @@ class SearchResultFragment : Fragment() {
                     }
                 }
 
-                val res : List<YoutubeVideo> = client.get("http://192.168.1.16:5519/api/list?keyword=$kw")
+                val res : List<YoutubeVideo> = client.get(WebAPI.createListURL(searchKeyword))
                 withContext(Dispatchers.Main){
                     resultAdapter.setAll(res)
                 }

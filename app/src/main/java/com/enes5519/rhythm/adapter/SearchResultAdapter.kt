@@ -19,6 +19,7 @@ import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.provider.downloadFile
 import com.enes5519.rhythm.utils.PermissionManager
+import com.enes5519.rhythm.utils.WebAPI
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
@@ -96,7 +97,7 @@ class SearchResultAdapter(
                 }
 
                 val client = HttpClient(Android)
-                val downloadURL : String = client.get("http://192.168.1.16:5519/api/download?video_id=${video.id}")
+                val downloadURL : String = client.get(WebAPI.createDownloadURL(video.id))
 
                 withContext(Dispatchers.Main){
                     builder.setContentText("Video İndiriliyor").setProgress(0,0,true)
@@ -114,7 +115,7 @@ class SearchResultAdapter(
                                     setImageResource(R.drawable.ic_done)
                                 }
 
-                                delay(500) // hack
+                                delay(1000) // hack
                                 builder.setProgress(0, 0, false).setContentText("Müzik indirildi!").setOngoing(false).setCategory(
                                     NotificationCompat.CATEGORY_MESSAGE)
                                 notify(notificationId, builder.build())
