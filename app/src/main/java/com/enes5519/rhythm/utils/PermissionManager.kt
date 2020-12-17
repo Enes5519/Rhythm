@@ -1,4 +1,4 @@
-package com.enes5519.vaveyla.utils
+package com.enes5519.rhythm.utils
 
 import android.app.Activity
 import android.app.AlertDialog

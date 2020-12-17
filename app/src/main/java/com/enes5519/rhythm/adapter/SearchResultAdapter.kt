@@ -12,25 +12,29 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.enes5519.rhythm.R
-import com.enes5519.rhythm.SearchResultsActivity
+import com.enes5519.rhythm.SearchResultFragment
 import com.enes5519.rhythm.model.DownloadResult
 import com.enes5519.rhythm.model.Music
 import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.provider.downloadFile
-import com.enes5519.vaveyla.utils.PermissionManager
+import com.enes5519.rhythm.utils.PermissionManager
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
-import java.io.File
 import kotlinx.coroutines.flow.collect
+import java.io.File
 
-class VideoListAdapter(private val activity: SearchResultsActivity, private val videos: ArrayList<YoutubeVideo>, private val databaseHelper: DatabaseHelper) : RecyclerView.Adapter<VideoListAdapter.ViewHolder>() {
+class SearchResultAdapter(
+    private val fragment: SearchResultFragment,
+    private val databaseHelper: DatabaseHelper
+) : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
+    private val values: ArrayList<YoutubeVideo> = arrayListOf()
     private val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
     private val notificationChannelId = "download_music"
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val downloadView: View = itemView.findViewById(R.id.download)
 
         fun bind(video: YoutubeVideo){
@@ -41,30 +45,32 @@ class VideoListAdapter(private val activity: SearchResultsActivity, private val 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_list_card, parent, false))
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_search_result, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(videos[position])
-        val isDownloaded = databaseHelper.musicExists(videos[position].id)
+        holder.bind(values[position])
+        val isDownloaded = databaseHelper.musicExists(values[position].id)
         holder.downloadView.findViewById<ImageView>(R.id.imageView).apply {
             setImageResource(if (isDownloaded) R.drawable.ic_done else R.drawable.ic_download)
             setOnClickListener {
-                if(!isDownloaded) handleDownload(videos[position], position, holder.downloadView)
+                if(!isDownloaded) handleDownload(values[position], position, holder.downloadView)
             }
         }
     }
 
-    override fun getItemCount(): Int = videos.size
+    override fun getItemCount(): Int = values.size
 
     fun setAll(newVideos: List<YoutubeVideo>){
-        videos.clear()
-        videos.addAll(newVideos)
+        values.clear()
+        values.addAll(newVideos)
         notifyDataSetChanged()
     }
 
     private fun handleDownload(video: YoutubeVideo, notificationId: Int, view: View){
-        if(!PermissionManager.checkAndRequestPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        if(!PermissionManager.checkAndRequestPermission(fragment.requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             return
         }
 
@@ -72,7 +78,7 @@ class VideoListAdapter(private val activity: SearchResultsActivity, private val 
             directory.mkdirs()
         }
 
-        val builder = NotificationCompat.Builder(activity.applicationContext, notificationChannelId).apply{
+        val builder = NotificationCompat.Builder(fragment.requireContext().applicationContext, notificationChannelId).apply{
             setContentTitle(video.title)
             setContentText("Link oluşturuluyor...")
             setSmallIcon(R.drawable.ic_download)
@@ -84,7 +90,7 @@ class VideoListAdapter(private val activity: SearchResultsActivity, private val 
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar).apply { visibility = View.VISIBLE }
 
         CoroutineScope(Dispatchers.IO).launch {
-            NotificationManagerCompat.from(activity).apply {
+            NotificationManagerCompat.from(fragment.requireContext()).apply {
                 withContext(Dispatchers.Main){
                     notify(notificationId, builder.build())
                 }
@@ -108,13 +114,15 @@ class VideoListAdapter(private val activity: SearchResultsActivity, private val 
                                     setImageResource(R.drawable.ic_done)
                                 }
 
-                                delay(500)
-                                builder.setProgress(0, 0, false).setContentText("Müzik indirildi!").setOngoing(false).setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                delay(500) // hack
+                                builder.setProgress(0, 0, false).setContentText("Müzik indirildi!").setOngoing(false).setCategory(
+                                    NotificationCompat.CATEGORY_MESSAGE)
                                 notify(notificationId, builder.build())
                             }
 
                             is DownloadResult.Error -> {
-                                builder.setProgress(0, 0, false).setContentText("Müzik indirilirken hata oluştu!").setOngoing(false).setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                builder.setProgress(0, 0, false).setContentText("Müzik indirilirken hata oluştu!").setOngoing(false).setCategory(
+                                    NotificationCompat.CATEGORY_MESSAGE)
                                 notify(notificationId, builder.build())
                             }
 

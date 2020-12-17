@@ -14,7 +14,7 @@ import com.enes5519.rhythm.R
 import com.enes5519.rhythm.model.CurrentSong
 import com.enes5519.rhythm.model.Music
 import com.enes5519.rhythm.provider.DatabaseHelper
-import com.enes5519.vaveyla.utils.PermissionManager
+import com.enes5519.rhythm.utils.PermissionManager
 import java.io.File
 import java.lang.Exception
 
@@ -39,7 +39,7 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
         holder.deleteView.setOnClickListener {
-            AlertDialog.Builder(activity).apply {
+            AlertDialog.Builder(it.context).apply {
                 setTitle("Dosyayı sil?")
                 setMessage("Dosyayı silmek istediğine emin misin?")
                 setPositiveButton("Evet"){ _, _ ->
@@ -47,7 +47,7 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
                         if (db.deleteMusic(list[position].video_id)) {
                             list.removeAt(position)
                             notifyItemRemoved(position)
-                            File(directory, list[position].title + ".mp3").let { if(it.exists()) it.delete() }
+                            File(directory, list[position].title + ".mp3").let { file -> if(file.exists()) file.delete() }
                         }
                     }
                 }
