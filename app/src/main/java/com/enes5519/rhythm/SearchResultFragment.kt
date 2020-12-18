@@ -62,7 +62,7 @@ class SearchResultFragment : Fragment() {
             notificationManager.createNotificationChannel(
                 NotificationChannel(
                     notificationChannelId,
-                    "Müzik İndir",
+                    "Download music",
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )

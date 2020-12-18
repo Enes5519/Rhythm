@@ -28,7 +28,8 @@
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
-            app:srcCompat="@drawable/ic_arrow_back" />
+            app:srcCompat="@drawable/ic_arrow_back"
+            android:contentDescription="@string/go_back" />
 
         <EditText
             android:id="@+id/search_et"
@@ -42,9 +43,10 @@
             android:textColor="@color/textColor"
             android:textColorHint="@color/colorAccent"
             android:textSize="22sp"
-            android:hint="@android:string/search_go"
+            android:hint="@string/search"
             android:background="@android:color/transparent"
-            android:inputType="text" />
+            android:inputType="text"
+            android:importantForAutofill="no" />
 
         <ImageView
             android:id="@+id/clear_button"
@@ -55,7 +57,8 @@
             app:layout_constraintBottom_toBottomOf="@id/editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/editText"
-            app:srcCompat="@drawable/ic_clear" />
+            app:srcCompat="@drawable/ic_clear"
+            android:contentDescription="@string/clear_the_text" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

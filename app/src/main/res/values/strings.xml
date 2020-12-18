@@ -5,6 +5,20 @@
     <string name="go_back">Go back</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="download">Download</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_file">Delete File</string>
+    <string name="delete_file_question">Are you sure you want to delete the file?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="creating_download_link">Creating download link…</string>
+    <string name="downloading_music">Downloading Music…</string>
+    <string name="music_downloaded">Music downloaded.</string>
+    <string name="error_download">Error occurred while downloading music!</string>
+    <string name="why_permission">Why should you allow?</string>
+    <string name="why_permission_description">These permissions are required to download music and list the music you\'ve downloaded.</string>
+    <string name="allow">Allow</string>
+    <string name="permission_required">Permission required</string>
+    <string name="permission_required_settings">You must grant all permissions in the application settings.</string>
+    <string name="go_settings">Go Settings</string>
+    <string name="search">Search</string>
+    <string name="play_stop">Play</string>
 </resources>

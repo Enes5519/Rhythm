@@ -79,9 +79,9 @@ class SearchResultAdapter(
             directory.mkdirs()
         }
 
-        val builder = NotificationCompat.Builder(fragment.requireContext().applicationContext, notificationChannelId).apply{
+        val builder = NotificationCompat.Builder(view.context.applicationContext, notificationChannelId).apply{
             setContentTitle(video.title)
-            setContentText("Link oluşturuluyor...")
+            setContentText(view.context.getString(R.string.creating_download_link))
             setSmallIcon(R.drawable.ic_download)
             setCategory(NotificationCompat.CATEGORY_PROGRESS)
             setOngoing(true)
@@ -100,7 +100,7 @@ class SearchResultAdapter(
                 val downloadURL : String = client.get(WebAPI.createDownloadURL(video.id))
 
                 withContext(Dispatchers.Main){
-                    builder.setContentText("Video İndiriliyor").setProgress(0,0,true)
+                    builder.setContentText(view.context.getString(R.string.downloading_music)).setProgress(0,0,true)
                     notify(notificationId, builder.build())
                 }
 
@@ -116,13 +116,13 @@ class SearchResultAdapter(
                                 }
 
                                 delay(1000) // hack
-                                builder.setProgress(0, 0, false).setContentText("Müzik indirildi!").setOngoing(false).setCategory(
+                                builder.setProgress(0, 0, false).setContentText(view.context.getString(R.string.music_downloaded)).setOngoing(false).setCategory(
                                     NotificationCompat.CATEGORY_MESSAGE)
                                 notify(notificationId, builder.build())
                             }
 
                             is DownloadResult.Error -> {
-                                builder.setProgress(0, 0, false).setContentText("Müzik indirilirken hata oluştu!").setOngoing(false).setCategory(
+                                builder.setProgress(0, 0, false).setContentText(view.context.getString(R.string.error_download)).setOngoing(false).setCategory(
                                     NotificationCompat.CATEGORY_MESSAGE)
                                 notify(notificationId, builder.build())
                             }

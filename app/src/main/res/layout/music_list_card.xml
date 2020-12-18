@@ -23,13 +23,15 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_play" />
+        app:srcCompat="@drawable/ic_play"
+        android:contentDescription="@string/play_stop"/>
 
     <ImageView
         android:id="@+id/delete"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_delete" />
+        app:srcCompat="@drawable/ic_delete"
+        android:contentDescription="@string/delete_file"/>
 
 </LinearLayout>

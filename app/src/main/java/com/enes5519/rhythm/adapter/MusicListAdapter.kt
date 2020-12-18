@@ -40,9 +40,9 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
         holder.bind(list[position])
         holder.deleteView.setOnClickListener {
             AlertDialog.Builder(it.context).apply {
-                setTitle("Dosyayı sil?")
-                setMessage("Dosyayı silmek istediğine emin misin?")
-                setPositiveButton("Evet"){ _, _ ->
+                setTitle(it.context.getString(R.string.delete_file))
+                setMessage(it.context.getString(R.string.delete_file_question))
+                setPositiveButton(it.context.getString(R.string.yes)){ _, _ ->
                     if (PermissionManager.checkAndRequestPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         if (db.deleteMusic(list[position].video_id)) {
                             list.removeAt(position)
@@ -51,7 +51,7 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
                         }
                     }
                 }
-                setNegativeButton("Hayır", null)
+                setNegativeButton(it.context.getString(R.string.no), null)
                 show()
             }
         }

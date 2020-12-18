@@ -9,15 +9,16 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.enes5519.rhythm.R
 
 object PermissionManager {
     fun checkAndRequestPermission(activity: Activity, permission: String): Boolean {
         if(ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)){
                 val builder = AlertDialog.Builder(activity)
-                builder.setTitle("Neden İzin Vermelisin?")
-                builder.setMessage("Müzik indirmek ve indirdiğin müzikleri listelemek için bu izinler gereklidir.")
-                builder.setPositiveButton("İzin Ver") { _, _ ->
+                builder.setTitle(activity.getString(R.string.why_permission))
+                builder.setMessage(activity.getString(R.string.why_permission_description))
+                builder.setPositiveButton(activity.getString(R.string.allow)) { _, _ ->
                     ActivityCompat.requestPermissions(
                         activity,
                         listOf(permission).toTypedArray(),
@@ -47,11 +48,9 @@ object PermissionManager {
 
         if(grantResults.isEmpty() && permission != PackageManager.PERMISSION_GRANTED){
             val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-            builder.setTitle("İzin Gerekli")
-            builder.setMessage("Uygulama ayarlarından tüm izinleri vermelisin.")
-            builder.setPositiveButton(
-                "Ayarlara Git"
-            ) { _,_ ->
+            builder.setTitle(context.getString(R.string.permission_required))
+            builder.setMessage(context.getString(R.string.permission_required_settings))
+            builder.setPositiveButton(context.getString(R.string.go_settings)) { _,_ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.addCategory(Intent.CATEGORY_DEFAULT)
                 intent.data = Uri.parse("package:$packageName")

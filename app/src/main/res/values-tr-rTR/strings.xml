@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ritim</string>
+    <string name="clear_the_text">Yazıyı sil</string>
+    <string name="error">Hata</string>
+    <string name="go_back">Geri dön</string>
+    <string name="thumbnail">Küçük Resim</string>
+    <string name="download">İndir</string>
+    <string name="delete_file">Dosyayı Sil</string>
+    <string name="delete_file_question">Dosyayı silmek istediğinizden emin misiniz?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="creating_download_link">İndirme bağlantısı oluşturuluyor…</string>
+    <string name="downloading_music">Müzik indiriliyor…</string>
+    <string name="music_downloaded">Müzik indirildi.</string>
+    <string name="error_download">Müzik indirilirken hata oluştu!</string>
+    <string name="why_permission">Neden izin vermelisin?</string>
+    <string name="why_permission_description">Müzik indirmek ve indirdiğin müzikleri listelemek için bu izinler gereklidir.</string>
+    <string name="allow">İzin ver</string>
+    <string name="permission_required">İzin gerekli</string>
+    <string name="permission_required_settings">Uygulama ayarlarından tüm izinleri vermelisiniz.</string>
+    <string name="go_settings">Ayarlara Git</string>
+    <string name="search">Ara</string>
+    <string name="play_stop">Oynat veya durdur</string>
+</resources>
