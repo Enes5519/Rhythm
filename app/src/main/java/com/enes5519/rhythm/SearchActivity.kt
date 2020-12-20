@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.findNavController
+import com.enes5519.rhythm.utils.PermissionManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -17,6 +18,8 @@ class SearchActivity : AppCompatActivity() {
 
         initViews()
         initAd()
+
+        PermissionManager.checkAndRequestPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     private fun initViews() {

@@ -21,6 +21,7 @@ import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.provider.DownloadResult
 import com.enes5519.rhythm.provider.downloadFile
+import com.enes5519.rhythm.utils.PermissionManager
 import com.enes5519.rhythm.utils.WebAPI
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -89,9 +90,9 @@ class SearchResultAdapter(
     }
 
     private fun handleDownload(video: YoutubeVideo){
-//        if(!PermissionManager.checkAndRequestPermission(fragment.requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-//            return
-//        }
+        if(!PermissionManager.checkPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            return
+        }
 
         if(!directory.exists()){
             directory.mkdirs()
