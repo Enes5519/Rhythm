@@ -16,15 +16,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enes5519.rhythm.adapter.SearchSuggestAdapter
 import com.enes5519.rhythm.provider.getSuggestions
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import kotlinx.coroutines.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Job
 import java.net.URLEncoder
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SuggestFragment : Fragment() {
     private val suggestAdapter: SearchSuggestAdapter = SearchSuggestAdapter(data, this::forwardToResults)
     private val editText : EditText by lazy{ activity?.findViewById(R.id.search_et)!! }
+    private var timer = Timer()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +54,13 @@ class SuggestFragment : Fragment() {
 
         editText.apply {
             doAfterTextChanged {
-                if(it !== null) createSuggestions(it.toString())
+                timer.cancel()
+                timer = Timer()
+                timer.schedule(object: TimerTask() {
+                    override fun run() {
+                        if(it !== null) createSuggestions(it.toString())
+                    }
+                }, 1000)
             }
             setOnEditorActionListener { _, actionId, _ ->
                 if(actionId == EditorInfo.IME_ACTION_SEARCH){
@@ -71,7 +84,12 @@ class SuggestFragment : Fragment() {
     }
 
     private fun createSuggestions(keyword: String){
-        job?.cancel()
+        if(job !== null){
+            if(!job!!.isCancelled){
+                job!!.cancel()
+            }
+            job = null
+        }
         if(keyword.isEmpty()){
             data.clear()
             suggestAdapter.notifyDataSetChanged()

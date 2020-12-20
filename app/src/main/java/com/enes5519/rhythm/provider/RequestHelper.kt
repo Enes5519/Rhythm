@@ -1,14 +1,14 @@
 package com.enes5519.rhythm.provider
 
-import com.enes5519.rhythm.model.DownloadResult
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.utils.io.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.receive
+import io.ktor.client.request.get
+import io.ktor.client.statement.HttpStatement
+import io.ktor.http.contentLength
+import io.ktor.http.isSuccess
+import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -47,4 +47,10 @@ suspend fun HttpClient.downloadFile(file: File, url: String) : Flow<DownloadResu
 suspend fun HttpClient.getSuggestions(keyword: String) : JsonArray {
     val response : String = get("https://google.com/suggest?client=firefox&ds=yt&format=rich&q=$keyword")
     return JsonParser.parseString(response).asJsonArray.get(1).asJsonArray
+}
+
+sealed class DownloadResult{
+    object Success: DownloadResult()
+    data class Error(val message: String, val cause: Exception? = null) : DownloadResult()
+    data class Progress(val progress: Int): DownloadResult()
 }

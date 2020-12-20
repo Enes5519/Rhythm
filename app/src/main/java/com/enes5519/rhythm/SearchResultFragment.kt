@@ -18,15 +18,15 @@ import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.utils.PermissionManager
 import com.enes5519.rhythm.utils.WebAPI
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.GsonSerializer
+import io.ktor.client.request.get
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.URLEncoder
 
 class SearchResultFragment : Fragment() {
     private val notificationChannelId = "download_music"
@@ -37,7 +37,7 @@ class SearchResultFragment : Fragment() {
         requireActivity().getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
     }
     private val resultAdapter : SearchResultAdapter by lazy {
-        SearchResultAdapter(this, DatabaseHelper(requireContext()))
+        SearchResultAdapter(requireContext(), DatabaseHelper(requireContext()))
     }
 
     override fun onCreateView(

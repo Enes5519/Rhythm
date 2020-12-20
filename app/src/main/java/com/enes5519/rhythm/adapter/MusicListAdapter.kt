@@ -37,7 +37,8 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        val music = list[position]
+        holder.bind(music)
         holder.deleteView.setOnClickListener {
             AlertDialog.Builder(it.context).apply {
                 setTitle(it.context.getString(R.string.delete_file))
@@ -47,7 +48,7 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
                         if (db.deleteMusic(list[position].video_id)) {
                             list.removeAt(position)
                             notifyItemRemoved(position)
-                            File(directory, list[position].title + ".mp3").let { file -> if(file.exists()) file.delete() }
+                            File(directory, music.title).let { file -> if(file.exists()) file.delete() }
                         }
                     }
                 }
@@ -55,7 +56,7 @@ class MusicListAdapter(private val activity: MainActivity, private val list: Arr
                 show()
             }
         }
-        val filePath = directory.path + File.separator + list[position].title + ".mp3"
+        val filePath = directory.path + File.separator + music.title
         holder.playView.setImageResource(if(currentSong?.path == filePath) R.drawable.ic_stop else R.drawable.ic_play)
         holder.playView.setOnClickListener {
             if (PermissionManager.checkAndRequestPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
