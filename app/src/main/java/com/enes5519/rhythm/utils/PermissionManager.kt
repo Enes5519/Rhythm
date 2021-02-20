@@ -13,7 +13,7 @@ import com.enes5519.rhythm.R
 
 object PermissionManager {
     fun checkPermission(context: Context, permission: String): Boolean{
-        return ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     fun checkAndRequestPermission(activity: Activity, permission: String): Boolean {

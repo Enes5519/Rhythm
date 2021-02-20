@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enes5519.rhythm.adapter.SearchResultAdapter
+import com.enes5519.rhythm.model.SearchResult
 import com.enes5519.rhythm.model.YoutubeVideo
 import com.enes5519.rhythm.provider.DatabaseHelper
 import com.enes5519.rhythm.utils.PermissionManager
@@ -83,9 +84,11 @@ class SearchResultFragment : Fragment() {
                     }
                 }
 
-                val res : List<YoutubeVideo> = client.get(WebAPI.createListURL(searchKeyword))
-                withContext(Dispatchers.Main){
-                    resultAdapter.setAll(res)
+                val res : SearchResult = client.get(WebAPI.createListURL(searchKeyword))
+                if(res.status == 200){
+                    withContext(Dispatchers.Main){
+                        resultAdapter.setAll(res.list)
+                    }
                 }
 
                 client.close()
